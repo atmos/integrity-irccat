@@ -19,8 +19,7 @@ module Integrity
       end
 
       def deliver!
-        notify "#{build.project.name}: #{short_message}"
-        notify build_url
+        notify "[#{build.project.name}] #{short_message} - #{build_url}"
       end
 
       def notify(message)

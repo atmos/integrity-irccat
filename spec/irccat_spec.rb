@@ -65,8 +65,8 @@ describe Integrity::Notifier::IrcCat do
     end
 
     it "should give the build status, project name and the build url" do
-      IrcCat::TcpClient.should_receive(:notify).with("127.0.0.1", 5678, "Integrity: Build e7e02b was successful")
-      IrcCat::TcpClient.should_receive(:notify).with("127.0.0.1", 5678, "http://localhost:4567/integrity/builds/e7e02bc669d07064cdbc7e7508a21a41e040e70d")
+      IrcCat::TcpClient.should_receive(:notify).with("127.0.0.1", 5678,
+        "[Integrity] Build e7e02b was successful - http://localhost:4567/integrity/builds/e7e02bc669d07064cdbc7e7508a21a41e040e70d")
       do_notify
     end
   end

@@ -5,7 +5,7 @@ Gem::Specification.new do |s|
   s.summary           = 'IrcCat notifier for the Integrity continuous integration server'
   s.summary           = 'IrcCat notifier for the Integrity continuous integration server'
   s.homepage          = 'http://integrityapp.com'
-  s.emails            = ['tim@spork.in', 'atmos@atmos.org']
+  s.email             = ['tim@spork.in', 'atmos@atmos.org']
   s.authors           = ['Tim Carey-Smith', 'Corey Donohoe']
   s.has_rdoc          = false
   s.files             = %w[README.markdown lib/notifier/config.haml lib/notifier/irccat.rb]

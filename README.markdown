@@ -7,15 +7,16 @@ Integrity IRC Notifier
 ========================
 
 This lets Integrity alert an IRC channel after each build is made.
+Based on src/integrity-irc on github.
 
 Setup Instructions
 ==================
 
 Just install this gem via `sudo gem install -s http://gems.github.com 
-sr-integrity-irc` and then in your Rackup (ie, `config.ru`) file:
+atmos-integrity-irccat` and then in your Rackup (ie, `config.ru`) file:
 
     require "rubygems"
-    require "notifier/irc"
+    require "notifier/irccat"
 
 And badabing! Now you can set up your projects to alert an IRC channel
 after each build (just edit the project and the config options should
@@ -26,7 +27,7 @@ License
 
 (The MIT License)
 
-Copyright (c) 2008 [Simon Rozet](http://purl.org/net/sr/)
+Copyright (c) 2008 [atmos](http://atmos.org/)
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the

@@ -1,4 +1,4 @@
-require File.dirname(__FILE__) +  "/../lib/notifier/irc"
+require File.dirname(__FILE__) +  "/../lib/notifier/irccat"
 require Integrity.root / "spec" / "spec_helper"
 
 describe Integrity::Notifier::IRC do
@@ -8,19 +8,23 @@ describe Integrity::Notifier::IRC do
   it_should_behave_like "A notifier"
 
   def klass
-    Integrity::Notifier::IRC
+    Integrity::Notifier::IrcCat
   end
 
   def notifier_config(opts={})
-    {"uri" =>"irc://irc.freenode.net:6667/integrity"}
+    {"host" =>"127.0.0.1", "port" => 5678}
   end
 
   def notifier
-    @notifier ||= Integrity::Notifier::IRC.new(mock_build, notifier_config)
+    @notifier ||= Integrity::Notifier::IrcCat.new(mock_build, notifier_config)
   end
 
-  it "should have an uri" do
-    notifier.uri.should == "irc://irc.freenode.net:6667/integrity"
+  it "should have an host" do
+    notifier.host.should == "127.0.0.1"
+  end
+
+  it "should have an port" do
+    notifier.port.should == 5678
   end
 
   describe "Generating a form for configuration" do

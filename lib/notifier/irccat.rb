@@ -1,10 +1,10 @@
 require 'rubygems'
 require 'integrity' unless defined?(Integrity)
-require 'shout-bot'
+require 'irccat'
 
 module Integrity
   class Notifier
-    class IRC < Notifier::Base
+    class IrcCat < Notifier::Base
       attr_reader :uri
       
       def self.to_haml

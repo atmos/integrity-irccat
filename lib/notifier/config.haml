@@ -1,3 +1,5 @@
 %p.normal
-  %label{ :for => 'irc_notifier_uri' } Send to
-  %input.text#irc_notifier_uri{ :name => 'notifiers[IRC][uri]', :type => 'text', :value => config['uri'] || 'irc://irc.freenode.net:6667/test' }
+  %label{ :for => 'irccat_notifier_host' } Send to host
+  %input.text#irccat_notifier_host{ :name => 'notifiers[IrcCat][host]', :type => 'text', :value => config['host'] || '127.0.0.1' }
+  %label{ :for => 'irccat_notifier_port' } Send to port
+  %input.text#irccat_notifier_port{ :name => 'notifiers[IrcCat][port]', :type => 'text', :value => config['port'] || 5678 }

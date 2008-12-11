@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) +  "/../lib/notifier/irccat"
 require Integrity.root / "spec" / "spec_helper"
 
-describe Integrity::Notifier::IRC do
+describe Integrity::Notifier::IrcCat do
   include AppSpecHelper
   include NotifierSpecHelper
   
@@ -28,18 +28,33 @@ describe Integrity::Notifier::IRC do
   end
 
   describe "Generating a form for configuration" do
-    describe "with a field for the IRC URI" do
+    describe "with a field for the IrcCat host" do
       it "should have the proper name, id and label and a default value" do
-        the_form.should have_textfield("irc_notifier_uri").
-          named("notifiers[IRC][uri]").
-          with_label("Send to").
-          with_value("irc://irc.freenode.net:6667/test")
+        the_form.should have_textfield("irccat_notifier_host").
+          named("notifiers[IrcCat][host]").
+          with_label("Send to host").
+          with_value("127.0.0.1")
       end
       
-      it "should use the config's 'uri' value if available" do
-        the_form(:config => { "uri" => "irc://irc.freenode.net/integrity" }).
-          should have_textfield("irc_notifier_uri").
-          with_value("irc://irc.freenode.net/integrity")
+      it "should use the config's 'host' value if available" do
+        the_form(:config => { "host" => "127.0.0.1" }).
+          should have_textfield("irccat_notifier_host").
+          with_value("127.0.0.1")
+      end
+    end
+
+    describe "with a field for the IrcCat port" do
+      it "should have the proper name, id and label and a default value" do
+        the_form.should have_textfield("irccat_notifier_port").
+          named("notifiers[IrcCat][port]").
+          with_label("Send to port").
+          with_value("5678")
+      end
+      
+      it "should use the config's 'port' value if available" do
+        the_form(:config => { "port" => 5678 }).
+          should have_textfield("irccat_notifier_port").
+          with_value("5678")
       end
     end
   end
@@ -49,27 +64,9 @@ describe Integrity::Notifier::IRC do
       notifier.deliver!
     end
 
-    before do
-      @channel = mock("channel", :say => "")
-      ShoutBot.stub!(:shout).and_yield(@channel)
-    end
-
-    it "should connect to the given URI as IntegrityBot" do
-      ShoutBot.should_receive(:shout).
-        with(notifier_config["uri"], {:as => "IntegrityBot"})
-      do_notify
-    end
-
-    it "should give the build status and project name" do
-      notifier.build.project.should_receive(:name).and_return("Integrity")
-      notifier.should_receive(:short_message).and_return("short message")
-      @channel.should_receive(:say).with("Integrity: short message")
-      do_notify
-    end
-
-    it "should give the build url" do
-      notifier.should_receive(:build_url).and_return("http://example.org")
-      @channel.should_receive(:say).with("http://example.org")
+    it "should give the build status, project name and the build url" do
+      IrcCat::TcpClient.should_receive(:notify).with("127.0.0.1", 5678, "Integrity: Build e7e02b was successful")
+      IrcCat::TcpClient.should_receive(:notify).with("127.0.0.1", 5678, "http://localhost:4567/integrity/builds/e7e02bc669d07064cdbc7e7508a21a41e040e70d")
       do_notify
     end
   end

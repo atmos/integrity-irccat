@@ -3,7 +3,7 @@ Integrity
 
 [Integrity][] is your friendly automated Continuous Integration server.
 
-Integrity IRC Notifier
+Integrity IrcCat Notifier
 ========================
 
 This lets Integrity alert an IRC channel after each build is made.

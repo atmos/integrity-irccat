@@ -1,26 +1,30 @@
 require 'rubygems'
 require 'integrity' unless defined?(Integrity)
-require 'irccat'
+gem 'irc_cat'
+require 'irc_cat/tcp_client'
 
 module Integrity
   class Notifier
     class IrcCat < Notifier::Base
-      attr_reader :uri
+      attr_reader :host, :port
       
       def self.to_haml
         File.read File.dirname(__FILE__) / "config.haml"
       end
 
       def initialize(build, config={})
-        @uri = config.delete("uri")
+        @host = config.delete("host")
+        @port = config.delete("port")
         super
       end
 
       def deliver!
-        ShoutBot.shout(uri, :as => "IntegrityBot") do |channel|
-          channel.say "#{build.project.name}: #{short_message}"
-          channel.say build_url
-        end
+        notify "#{build.project.name}: #{short_message}"
+        notify build_url
+      end
+
+      def notify(message)
+        ::IrcCat::TcpClient.notify(host, port, message)
       end
     end
   end

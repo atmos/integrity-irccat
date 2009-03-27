@@ -1,5 +1,5 @@
 require 'rubygems'
-require 'integrity' unless defined?(Integrity)
+require 'integrity'
 gem 'irc_cat'
 require 'irc_cat/tcp_client'
 
@@ -7,7 +7,7 @@ module Integrity
   class Notifier
     class IrcCat < Notifier::Base
       attr_reader :host, :port
-      
+
       def self.to_haml
         File.read File.dirname(__FILE__) / "config.haml"
       end
@@ -19,11 +19,13 @@ module Integrity
       end
 
       def deliver!
-        notify "[#{build.project.name}] Build by #{build.commit_author.name} #{build.successful? ? "was successful" : "failed"} - #{build_url}"
+        notify "[#{commit.project.name}] Build by #{commit.author.name} #{commit.successful? ? "was successful" : "failed"} - #{commit_url}"
       end
 
       def notify(message)
         ::IrcCat::TcpClient.notify(host, port, message)
+      rescue Errno::ECONNREFUSED
+        Integrity.log "Unable to connect to the IrcCat Bot"
       end
     end
   end
